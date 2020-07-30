@@ -1,7 +1,7 @@
 FROM registry.redhat.io/ubi8/ubi
 ARG VERSION
 RUN yum --setopt=tsflags=nodocs -y upgrade \
-  && yum --setopt=tsflags=nodocs --enablerepo=rhel-8-for-x86_64-baseos-debug-rpms  -y install \
+  && yum --setopt=tsflags=nodocs --enablerepo=ubi-8-appstream --enablerepo=rhel-8-for-x86_64-baseos-debug-rpms  -y install \
     ethtool \
     iotop \
     iproute-tc \
