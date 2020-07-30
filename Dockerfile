@@ -26,7 +26,7 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-core-$VERSION.x86_64.rpm \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-modules-$VERSION.x86_64.rpm \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-debuginfo-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-debuginfo-common-$VERSION.x86_64.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-debuginfo-common-x86_64-$VERSION.x86_64.rpm \
   && yum clean all
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY probe.stap /usr/local/bin/probe.stap
