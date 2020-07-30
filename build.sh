@@ -6,6 +6,12 @@ else
     VERSION=$1
 fi
 
+if [[ $# != 2 ]]; then
+    FW="20191202-97.gite8a0f4c9.el8"
+else
+    FW=$2
+fi
+
 BUILDER=podman
 which $BUILDER || BUILDER=docker
 which $BUILDER || BUILDER=""
@@ -15,6 +21,6 @@ if [ "$BUILDER" = "" ]; then
     exit 1
 fi
 
-$BUILDER build --build-arg VERSION=$VERSION \
+$BUILDER build --build-arg VERSION=$VERSION --build-arg FW=$FW \
          -f Dockerfile -t rhcos-dbg:$VERSION || exit 1
 $BUILDER push rhcos-dbg:$VERSION
