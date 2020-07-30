@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [[ $# != 2 ]]; then
+if [[ $# != 1 ]]; then
     VERSION=`uname -r`
 else
-    VERSION=$2
+    VERSION=$1
 fi
 
 BUILDER=podman
