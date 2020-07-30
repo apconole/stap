@@ -11,7 +11,7 @@ which $BUILDER || BUILDER=docker
 which $BUILDER || BUILDER=""
 
 if [ "$BUILDER" = "" ]; then
-    echo Need to install podman (preferred) or docker
+    echo "Need to install podman (preferred) or docker"
     exit 1
 fi
 
