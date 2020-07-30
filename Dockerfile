@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi8/ubi:latest
 ARG VERSION
 RUN yum --disableplugin=subscription-manager --setopt=tsflags=nodocs --enablerepo=ubi-8-appstream -y upgrade \
-  && yum --disableplugin=subscription-manager --setopt=tsflags=nodocs --enablerepo=ubi-8-appstream --enablerepo=rhel-8-for-x86_64-baseos-debug-rpms  -y install \
+  && yum --disableplugin=subscription-manager --setopt=tsflags=nodocs --enablerepo=ubi-8-appstream  -y install \
     ethtool \
     iotop \
     iproute-tc \
