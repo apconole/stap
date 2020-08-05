@@ -92,16 +92,16 @@ probe kernel.{function("icmp_rcv"),function("icmp_unreach"),function("icmp_reply
 
             printf("[%d] Handle possible RT Exception (%s, %d, %d)\n", ktime_get_ns(), probefunc(), type, code);
             if (probefunc() =~ "icmp_reply.*") {
-               printf("Generic ICMP (%u) %d:%d\n", uid(), code, type);
+               printf("Generic ICMP (%u) %d:%d\n", uid(), type, code);
             } else {
-              if (code == 3) {
-                  printf("Unreachable message in (%s:%d %d/%d)\n", execname(), pid(), type, code);
-                  print_backtrace();
-                  printf("====================================\n");
-                  printf("skb: indev[%s]\n", kernel_string($skb->dev->name));
-                  skb_linear_print(skb);
-                  printf("====================================\n");
-              }
+               printf("Unreachable message in (%s:%d %d/%d)\n", execname(), pid(), type, code);
+               if (type == 3 && code == 4) {
+                   print_backtrace();
+                   printf("====================================\n");
+                   printf("skb: indev[%s]\n", kernel_string($skb->dev->name));
+                   skb_linear_print(skb);
+                   printf("====================================\n");
+               }
             }
 }
 
