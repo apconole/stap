@@ -126,8 +126,13 @@ probe kernel.function("icmp_send") {
       }
 }
 
+function RETVAL_IS_ERR:long(ptr:long)
+%{ /* pure */
+   STAP_RETVALUE = IS_ERR((const void *)(uintptr_t)STAP_ARG_ptr);
+%}
+   
 probe kernel.function("skb_segment").return {
-    if ($return != 0) {
+    if (RETVAL_IS_ERR($return)) {
         printf("[%d] skbseg return == %d (%s)\n", ktime_get_ns(), $return, execname());
     }
 }
