@@ -21,7 +21,7 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
     perf \
     python38 \
     strace \
-    bzip2
+    bzip2 \
     systemtap \
     tcpdump \
   && yum --disableplugin=subscription-manager --setopt=tsflags=nodocs -y install \
