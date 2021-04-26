@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [[ $# != 1 ]]; then
-    VERSION=`uname -r`
+if [[ $# -lt 1 ]]; then
+	VERSION="$(uname -r)"
 else
     VERSION=$1
 fi
 
-if [[ $# != 2 ]]; then
+if [[ $# -lt 2 ]]; then
     FW="20191202-97.gite8a0f4c9.el8"
 else
     FW=$2
