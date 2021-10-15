@@ -36,7 +36,10 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-debuginfo-$VERSION.rpm \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-debuginfo-common-$(echo $VERSION | awk -F. '{print $NF}')-$VERSION.rpm \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/linux-firmware/$(echo $FW | cut -d- -f1)/$(echo $FW | cut -d- -f2)/noarch/linux-firmware-$FW.noarch.rpm \
-  && yum clean all
+  && yum clean all \ 
+  && mkdir /workdir
+VOLUME [ "/workdir" ]
+WORKDIR "/workdir"
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY probe.stap /usr/local/bin/probe.stap
 COPY dropwatch.stp /usr/local/bin/dropwatch.stp
