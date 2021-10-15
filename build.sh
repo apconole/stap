@@ -18,6 +18,12 @@ else
    RHELVER=$3
 fi
 
+if [[ $# -lt 4 ]]; then
+    TAG="rhcos-dbg:$VERSION"
+else
+    TAG=$4
+fi
+
 BUILDER=buildah
 which $BUILDER || BUILDER=podman
 which $BUILDER || BUILDER=docker
@@ -35,7 +41,7 @@ then
 	BUILD_COMMAND="bud"
 fi
 
-$BUILDER $BUILD_COMMAND --build-arg VERSION=$VERSION --build-arg FW=$FW \
-	 --build-arg RHELVER=$RHELVER \
-         -f Dockerfile -t rhcos-dbg:$VERSION || exit 1
+$BUILDER $BUILD_COMMAND --build-arg "VERSION=${VERSION}" --build-arg "FW=${FW}" \
+	 --build-arg "RHELVER=${RHELVER}" \
+         -f Dockerfile -t "${TAG}" || exit 1
 #$BUILDER push rhcos-dbg:$VERSION

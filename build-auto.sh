@@ -27,6 +27,8 @@ fi
 
 OCP_VERSION="${1}"
 
+TAG="${2:-stap-image:${OCP_VERSION}}"
+
 echo "Building for OCP version ${OCP_VERSION}"
 
 VERSION=$(get-package-version "${1}" kernel | jq -r '.[2]+"-"+.[3]+"."+.[4]')
@@ -40,4 +42,4 @@ echo "Detected RHEL version ${RHELVER}"
 
 echo
 
-./build.sh "${VERSION}" "${FW}" "${RHELVER}"
+./build.sh "${VERSION}" "${FW}" "${RHELVER}" "${TAG}"
