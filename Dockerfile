@@ -40,4 +40,4 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY probe.stap /usr/local/bin/probe.stap
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["/bin/bash"]
+CMD ["stap","-g","--all-modules","/usr/local/bin/probe.stap"]
