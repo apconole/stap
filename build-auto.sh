@@ -19,9 +19,9 @@ function get-rhelver {
 	    echo -n "${RHELVER_FOUND}"
 }
 
-if [[ $# -ne 1 ]]
+if [[ $# -lt 1 ]] || [[ $# -gt 2 ]]
 then
-	echo "One positional argument is required and it must be a valid OCP version. No more arguments allowed"
+	echo "Usage: ./build-auto.sh <OCP-version> [<image-tag>]"
 	exit 1
 fi
 
