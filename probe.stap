@@ -116,7 +116,7 @@ probe kernel.{function("fib_table_insert"),function("fib_table_delete")} {
 	print_backtrace();
 }
 
-probe kernel.function("icmp_send") {
+probe kernel.function("__icmp_send") {
       type = $type;
       code = $code;
       //printf("Gen possible RT Exception (%s, %d, %d)\n", probefunc(), type, code);
