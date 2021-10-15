@@ -39,5 +39,6 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
   && yum clean all
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY probe.stap /usr/local/bin/probe.stap
+COPY dropwatch.stp /usr/local/bin/dropwatch.stp
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["stap","-g","--all-modules","/usr/local/bin/probe.stap"]
