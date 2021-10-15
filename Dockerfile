@@ -1,14 +1,17 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+#FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.redhat.io/rhel8/support-tools:latest
 ARG VERSION
 ARG FW
+ARG RHELVER
+LABEL run "podman run -it --entrypoint /bin/bash --name NAME --privileged --ipc=host --net=host --pid=host -e HOST=/host -e NAME=NAME -e IMAGE=IMAGE -v /run:/run -v /var/log:/var/log -v /etc/machine-id:/etc/machine-id -v /etc/localtime:/etc/localtime -v /:/host IMAGE"
 RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
   echo 'name = Red Hat Eng Hack' >> /etc/yum.repos.d/hack.repo && \
-  echo 'baseurl = http://download-node-02.eng.bos.redhat.com/released/RHEL-8/8.1.0/BaseOS/x86_64/os/' >> /etc/yum.repos.d/hack.repo && \
+  echo "baseurl = http://download-node-02.eng.bos.redhat.com/released/RHEL-8/${RHELVER}.0/BaseOS/$(echo $VERSION | awk -F. '{print $NF}')/os/" >> /etc/yum.repos.d/hack.repo && \
   echo 'enabled = 1' >> /etc/yum.repos.d/hack.repo && \
   echo 'gpgcheck = 0' >> /etc/yum.repos.d/hack.repo && \
   echo '[rhel8-appstream-hack]' >> /etc/yum.repos.d/hack.repo && \
   echo 'name = Red Hat Eng Hack - AppStream' >> /etc/yum.repos.d/hack.repo && \
-  echo 'baseurl = http://download-node-02.eng.bos.redhat.com/released/RHEL-8/8.1.0/AppStream/x86_64/os/' >> /etc/yum.repos.d/hack.repo && \
+  echo "baseurl = http://download-node-02.eng.bos.redhat.com/released/RHEL-8/${RHELVER}.0/AppStream/$(echo $VERSION | awk -F. '{print $NF}')/os/" >> /etc/yum.repos.d/hack.repo && \
   echo 'enabled = 1' >> /etc/yum.repos.d/hack.repo && \
   echo 'gpgcheck = 0' >> /etc/yum.repos.d/hack.repo && \
   yum --disableplugin=subscription-manager --setopt=tsflags=nodocs -y upgrade \
@@ -23,14 +26,15 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
     strace \
     bzip2 \
     systemtap \
+    tmux \
     tcpdump \
   && yum --disableplugin=subscription-manager --setopt=tsflags=nodocs -y install \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-core-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-modules-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-devel-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-debuginfo-$VERSION.x86_64.rpm \
-  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2)/x86_64/kernel-debuginfo-common-x86_64-$VERSION.x86_64.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-$VERSION.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-core-$VERSION.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-modules-$VERSION.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-devel-$VERSION.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-debuginfo-$VERSION.rpm \
+  http://download-node-02.eng.bos.redhat.com/brewroot/packages/kernel/$(echo $VERSION | cut -d- -f1)/$(echo $VERSION | cut -d- -f2 | sed 's/\.[^.]*$//')/$(echo $VERSION | awk -F. '{print $NF}')/kernel-debuginfo-common-$(echo $VERSION | awk -F. '{print $NF}')-$VERSION.rpm \
   http://download-node-02.eng.bos.redhat.com/brewroot/packages/linux-firmware/$(echo $FW | cut -d- -f1)/$(echo $FW | cut -d- -f2)/noarch/linux-firmware-$FW.noarch.rpm \
   && yum clean all
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

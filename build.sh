@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $# -lt 1 ]]; then
-	VERSION="$(uname -r)"
+    VERSION="$(uname -r)"
 else
     VERSION=$1
 fi
@@ -12,7 +12,14 @@ else
     FW=$2
 fi
 
-BUILDER=podman
+if [[ $# -lt 3 ]]; then
+   RHELVER="8.1"
+else
+   RHELVER=$3
+fi
+
+BUILDER=buildah
+which $BUILDER || BUILDER=podman
 which $BUILDER || BUILDER=docker
 which $BUILDER || BUILDER=""
 
@@ -21,6 +28,14 @@ if [ "$BUILDER" = "" ]; then
     exit 1
 fi
 
-$BUILDER build --build-arg VERSION=$VERSION --build-arg FW=$FW \
+BUILD_COMMAND="build"
+
+if [ "$BUILDER" = "buildah" ]
+then
+	BUILD_COMMAND="bud"
+fi
+
+$BUILDER $BUILD_COMMAND --build-arg VERSION=$VERSION --build-arg FW=$FW \
+	 --build-arg RHELVER=$RHELVER \
          -f Dockerfile -t rhcos-dbg:$VERSION || exit 1
-$BUILDER push rhcos-dbg:$VERSION
+#$BUILDER push rhcos-dbg:$VERSION
