@@ -34,7 +34,7 @@ There are many ways to use this image. The most comfortable one is to use it as 
 
 You can also create the pod in any way you want though (`oc run`, `podman run`, manually creating a manifest, a daemonset...), just bear in mind:
 - Pod must be **privileged**
-- If no command is specified, it runs stap with the example `probe.stap` SystemTap script (exact command is `stap -g --all-modules /usr/local/bin/probe.stap`) instead of opening a shell. Instead, you might want to run another command of your choice in a similar way.
+- If no command is specified, it runs stap with the example `dropwatch.stp` SystemTap script (exact command is `stap --all-modules /usr/local/bin/dropwatch.stp`) instead of opening a shell. Instead, you might want to run another command of your choice in a similar way.
 - Pod must be in the host network (unless you do want to do some test in a non-host pod network namespace). You may need to also adjust other namespaces to be the host ones.
 
 Regarding where to store the results of perf or stap runs, by default, workdir is set to `/workdir` folder inside the container, which is a volume. If you want to store results in a persistent volume, for example, you should just mount it at `/workdir`.

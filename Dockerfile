@@ -44,4 +44,5 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY probe.stap /usr/local/bin/probe.stap
 COPY dropwatch.stp /usr/local/bin/dropwatch.stp
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["stap","-g","--all-modules","/usr/local/bin/probe.stap"]
+#CMD ["stap","-g","--all-modules","/usr/local/bin/probe.stap"]
+CMD ["stap","--all-modules","/usr/local/bin/dropwatch.stp"]
