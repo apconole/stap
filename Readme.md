@@ -38,3 +38,12 @@ You can also create the pod in any way you want though (`oc run`, `podman run`, 
 - Pod must be in the host network (unless you do want to do some test in a non-host pod network namespace). You may need to also adjust other namespaces to be the host ones.
 
 Regarding where to store the results of perf or stap runs, by default, workdir is set to `/workdir` folder inside the container, which is a volume. If you want to store results in a persistent volume, for example, you should just mount it at `/workdir`.
+
+## Sample scripts
+
+The image includes the following sample stap scripts:
+- `dropwatch.stp` as documented in the [corresponding solution](https://access.redhat.com/solutions/2194511). Running this script is the default command of the image. Note that it is slightly different than the original stap example it comes from.
+- `probe.stap` is an example of a more complex script used during the troubleshooting of [BZ#1849736](https://bugzilla.redhat.com/show_bug.cgi?id=1849736).
+- Also the default examples bundled with stap are included. They are present at `/usr/share/systemtap/examples`.
+
+If a script can be useful, it can also be included. Just feel free to colaborate on the repo, adding the script to the image in the same way than the ones already present (and update the readme).
