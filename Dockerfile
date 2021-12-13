@@ -14,7 +14,7 @@ RUN echo '[rhel8-hack]' > /etc/yum.repos.d/hack.repo && \
   echo "baseurl = http://download-node-02.eng.bos.redhat.com/released/RHEL-8/${RHELVER}.0/AppStream/$(echo $VERSION | awk -F. '{print $NF}')/os/" >> /etc/yum.repos.d/hack.repo && \
   echo 'enabled = 1' >> /etc/yum.repos.d/hack.repo && \
   echo 'gpgcheck = 0' >> /etc/yum.repos.d/hack.repo && \
-  yum --disableplugin=subscription-manager --setopt=tsflags=nodocs -y upgrade \
+  yum --disableplugin=subscription-manager --setopt=tsflags=nodocs --allowerasing -y upgrade \
   && yum --disableplugin=subscription-manager --setopt=tsflags=nodocs -y install \
     ethtool \
     iotop \
