@@ -12,7 +12,9 @@ Let's start with the ugly part, the warnings:
 
 ## Build
 
-**Builds must be done inside Red Hat network and/or VPN**. Either buildah, podman or docker is required to build this image (if many of those is available, one of them will be chosen in this order of preference).
+**Builds must be done inside Red Hat network and/or VPN**. This is done this way not only to avoid subscribing the build host, but also because it should be possible to build custom image based on any brew build without much difficulty or change (although I have only tested with official RHCOS kernels so far).
+
+Either buildah, podman or docker is required to build this image (if many of those is available, one of them will be chosen in this order of preference).
 
 Also note that builds may take long and produce very big images.
 
